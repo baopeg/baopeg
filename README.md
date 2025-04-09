@@ -34,4 +34,4 @@ uid                   [ultimate] baopeg
 sub   rsa3072/BAOPEG1E6B9847DEE 2024-04-25 [E]
 ```
 
-![Snake](https://gist.githubusercontent.com/baopeg/49c7e88f47a921045ef17baee55e1f05/raw/45032b6f5f1a2a0a1f56c3af4c4814175997ac0c/github-snake-dark.svg)
+![Snake](https://gist.githubusercontent.com/baopeg/4178cf7efa5a51a41b2a8f422bb65455/raw/github-snake-dark.svg)
