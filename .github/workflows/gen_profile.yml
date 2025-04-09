@@ -69,9 +69,6 @@ jobs:
           plugin_people_shuffle: yes
           plugin_people_size: 28
           plugin_people_types: followers, following
-          plugin_rss: yes
-          plugin_rss_limit: 5
-          plugin_rss_source: https://github.com/baopeg.atom
       - name: Push snake to gist
         uses: exuanbo/actions-deploy-gist@v1
         with:
