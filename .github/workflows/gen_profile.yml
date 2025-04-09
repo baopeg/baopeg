@@ -10,12 +10,10 @@ on:
   push: {branches: ["master", "main"]}
     
 jobs:
-  generate:
+  generate_snake:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
-
+    timeout-minutes: 5
     steps:
-      # generates a snake game from a github user (<github_user_name>) contributions graph, output a svg animation at <svg_out_path>
       - name: Generate github-contribution-grid-snake.svg
         uses: Platane/snk/svg-only@v3
         with:
@@ -23,6 +21,27 @@ jobs:
           outputs: |
             github-snake.svg?palette=github-light
             github-snake-dark.svg?palette=github-dark
+      - name: Push snake to gist
+        uses: exuanbo/actions-deploy-gist@v1
+        with:
+          token: ${{ secrets.GIST_TOKEN }}
+          gist_id: 4178cf7efa5a51a41b2a8f422bb65455
+          gist_file_name: github-snake.svg
+          file_path: github-snake.svg
+      - name: Push dark snake to gist
+        uses: exuanbo/actions-deploy-gist@v1
+        with:
+          token: ${{ secrets.GIST_TOKEN }}
+          gist_id: 4178cf7efa5a51a41b2a8f422bb65455
+          gist_file_name: github-snake-dark.svg
+          file_path: github-snake-dark.svg
+
+  generate_metrics:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
       - name: Generate github metric
         uses: lowlighter/metrics@latest
         with:
@@ -35,10 +54,6 @@ jobs:
           config_timezone: Asia/Shanghai
           config_twemoji: yes
           plugin_achievements: no
-          # Disabled due to GitHub's classic Projects API deprecation
-          # plugin_achievements_display: compact
-          # plugin_achievements_secrets: yes
-          # plugin_achievements_threshold: X
           plugin_calendar: yes
           plugin_calendar_limit: 2
           plugin_followup: yes
@@ -73,21 +88,11 @@ jobs:
           plugin_rss: yes
           plugin_rss_limit: 5
           plugin_rss_source: https://github.com/baopeg.atom
-      # push the snakes to a GitHub Gist
-      - name: Push snake to gist
-        uses: exuanbo/actions-deploy-gist@v1
+      - name: Cache metrics
+        uses: actions/cache@v3
         with:
-          token: ${{ secrets.GIST_TOKEN }}
-          gist_id: 4178cf7efa5a51a41b2a8f422bb65455
-          gist_file_name: github-snake.svg
-          file_path: github-snake.svg
-      - name: Push dark snake to gist
-        uses: exuanbo/actions-deploy-gist@v1
-        with:
-          token: ${{ secrets.GIST_TOKEN }}
-          gist_id: 4178cf7efa5a51a41b2a8f422bb65455
-          gist_file_name: github-snake-dark.svg
-          file_path: github-snake-dark.svg
+          path: metrics_renders
+          key: ${{ runner.os }}-metrics-${{ hashFiles('metrics_renders/*') }}
   keepalive-job:
     name: Keepalive Workflow
     runs-on: ubuntu-latest
