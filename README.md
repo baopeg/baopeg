@@ -19,7 +19,7 @@ baopeg@github:~$ cat education.json
     "university": "Nantong University(NTU)"
 }
 
-baopeg@github:~$ ls skills.json
+baopeg@github:~$ cat skills.json
 {
     "language": ["Python", "C++", "Shell"],
     "framework": ["PyTorch","Srapy","Django"],
