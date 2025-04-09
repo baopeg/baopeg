@@ -40,7 +40,6 @@ jobs:
           plugin_achievements_threshold: X
           plugin_calendar: yes
           plugin_calendar_limit: 2
-          plugin_calendar_years_limit: 2
           plugin_followup: yes
           plugin_followup_archived: yes
           plugin_followup_sections: user,repositories
