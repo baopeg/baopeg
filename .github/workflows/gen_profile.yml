@@ -1,90 +1,199 @@
+# 工作流名称
 name: Generate Github Profile
 
+# 触发条件配置
 on:
-  # each day
+  # 定时任务 - 每天UTC时间16:00(北京时间0:00)运行
   schedule:
     - cron: "0 16 * * *"
 
-  # run workflow manually and on each commit
+  # 手动触发和工作流
   workflow_dispatch:
+
+  # 推送到master或main分支时触发
   push: {branches: ["master", "main"]}
     
+# 工作流任务定义
 jobs:
+  # 生成GitHub统计图表任务
   generate:
+    # 运行环境
     runs-on: ubuntu-latest
+    # 超时时间60分钟
     timeout-minutes: 60
+    # 所需权限 - 写入仓库内容
     permissions:
       contents: write
 
+        # 执行步骤
     steps:
+      # 生成GitHub贡献日历蛇形图
       - name: Generate github-contribution-grid-snake.svg
+        # 使用Platane/snk插件
         uses: Platane/snk/svg-only@v3
         with:
+          # 使用仓库所有者作为GitHub用户名
           github_user_name: ${{ github.repository_owner }}
+          # 输出两种主题的SVG文件
           outputs: |
-            github-snake.svg?palette=github-light
-            github-snake-dark.svg?palette=github-dark
+            github-snake.svg?palette=github-light  # 浅色主题
+            github-snake-dark.svg?palette=github-dark  # 深色主题
+        
+        # 生成GitHub统计指标
       - name: Generate github metric
+        # 使用lowlighter/metrics插件
         uses: lowlighter/metrics@latest
         with:
+
+          # 使用METRICS_TOKEN访问GitHub API
           token: ${{ secrets.METRICS_TOKEN }}
+
+          # 统计baopeg用户的GitHub数据
           user: baopeg
+
+          # 使用经典模板
           template: classic
+          
+          # 基础模块: 头部、活动、社区、仓库、元数据
           base: header, activity, community, repositories, metadata
+          
+          # 显示配置: 大尺寸
           config_display: large
+
+          # 显示GitHub Octicon图标
           config_octicon: yes
+
+          # 时区设置为亚洲/上海
           config_timezone: Asia/Shanghai
+
+          # 使用Twemoji表情
           config_twemoji: yes
+
+          # 日历插件: 显示贡献日历
           plugin_calendar: yes
+
+          # 显示最近2个月的日历
           plugin_calendar_limit: 2
+
+          # 跟进插件: 显示用户和仓库信息
           plugin_followup: yes
+
+          # 包含归档仓库
           plugin_followup_archived: yes
+
+          # 跟进部分: 用户和仓库
           plugin_followup_sections: user,repositories
+
+          # Gist插件: 显示Gist信息
           plugin_gists: yes
+
+          # 习惯插件: 显示开发习惯
           plugin_habits: yes
+        
+          # 习惯图表类型: 经典
           plugin_habits_charts_type: classic
+
+          # 显示最近14天的习惯
           plugin_habits_days: 14
+
+          # 显示习惯事实
           plugin_habits_facts: yes
+
+          # 从200个事件开始分析习惯
           plugin_habits_from: 200
+
+          # 显示最多8种语言
           plugin_habits_languages_limit: 8
+
+          # 语言显示阈值: 0%
           plugin_habits_languages_threshold: 0%
+
+          # 介绍插件: 显示个人介绍
           plugin_introduction: yes
+
+          # 显示介绍标题
           plugin_introduction_title: yes
+
+          # 语言插件: 显示语言统计
           plugin_languages: yes
+
+          # 语言分析超时: 15秒
           plugin_languages_analysis_timeout: 15
-          plugin_languages_analysis_timeout_repositories: 7.5
+
+          # 每个仓库分析超时: 7.5秒
+          plugin_languages_analysis_timeout_repositories: 60
+
+          # 语言分类: 标记语言和编程语言
           plugin_languages_categories: markup, programming
+
+          # 使用GitHub官方语言颜色
           plugin_languages_colors: github
+
+          # 显示最多8种语言
           plugin_languages_limit: 8
+
+          # 最近使用的语言分类
           plugin_languages_recent_categories: markup, programming
-          plugin_languages_recent_days: 14
+          
+          # 分析最近14天的语言使用
+          plugin_languages_recent_days: 365
+
+          # 加载最近300个事件分析语言
           plugin_languages_recent_load: 300
+
+          # 语言部分: 最常用语言
           plugin_languages_sections: most-used
+
+          # 语言显示阈值: 0%
           plugin_languages_threshold: 0%
+
+          # 人员插件: 显示关注者和关注中的人
           plugin_people: yes
+
+          # 显示最多24个人
           plugin_people_limit: 24
+
+          # 随机排序人员
           plugin_people_shuffle: yes
+
+          # 头像大小: 28px
           plugin_people_size: 28
+
+          # 显示关注者和关注中的人
           plugin_people_types: followers, following
+          
+            # 推送蛇形图到Gist
       - name: Push snake to gist
+        # 使用exuanbo/actions-deploy-gist插件
         uses: exuanbo/actions-deploy-gist@v1
         with:
+          # 使用GIST_TOKEN访问GitHub Gist
           token: ${{ secrets.GIST_TOKEN }}
+          # 目标Gist ID
           gist_id: 4178cf7efa5a51a41b2a8f422bb65455
+          # Gist中的文件名
           gist_file_name: github-snake.svg
+          # 本地文件路径
           file_path: github-snake.svg
+            # 推送深色主题蛇形图到Gist
       - name: Push dark snake to gist
         uses: exuanbo/actions-deploy-gist@v1
         with:
           token: ${{ secrets.GIST_TOKEN }}
           gist_id: 4178cf7efa5a51a41b2a8f422bb65455
+          # Gist中的文件名(深色主题)
           gist_file_name: github-snake-dark.svg
+          # 本地文件路径(深色主题)
           file_path: github-snake-dark.svg
+    # 保持工作流活跃任务
   keepalive-job:
     name: Keepalive Workflow
     runs-on: ubuntu-latest
+    # 所需权限 - 写入actions
     permissions:
       actions: write
     steps:
+      # 检出代码
       - uses: actions/checkout@v4
+      # 使用keepalive-workflow插件保持工作流活跃
       - uses: gautamkrishnar/keepalive-workflow@v2
