@@ -2,7 +2,7 @@
 
 ![Metrics](/github-metrics.svg)
 
-```markdown
+```shell
 baopeg@github:~$ whoami
 baopeg
 
@@ -33,7 +33,7 @@ zh_CN.UTF-8 (Fluent)
 en_US.UTF-8 (Elementary Proficiency)
 
 baopeg@github:~$ ls my-blog
-[https://baopeg.top/](https://baopeg.top/)
+https://baopeg.top/
 ```
 
 ![Snake](https://gist.githubusercontent.com/baopeg/4178cf7efa5a51a41b2a8f422bb65455/raw/github-snake.svg)
