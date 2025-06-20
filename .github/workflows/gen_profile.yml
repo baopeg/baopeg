@@ -196,4 +196,4 @@ jobs:
       # 检出代码
       - uses: actions/checkout@v4
       # 使用keepalive-workflow插件保持工作流活跃
-      - uses: gautamkrishnar/keepalive-workflow@v2
+      - uses: gautamkrishnar/keepalive-workflow@v1
