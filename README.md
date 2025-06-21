@@ -13,6 +13,12 @@ Directory: /home/baopeg
 Shell: /bin/bash
 Email: baopeg.gao@gmail.com
 
+baopeg@github:~$ cat learning.txt
+{
+    "currently_learning": ["Deep Learning", "Large Language Models", "AI-Agents", "Intelligent Robotics"],
+    "recent_focus": "Building AI applications with LLMs"
+}
+
 baopeg@github:~$ cat education.json
 {
     "major": "Big Data && Deep Learning",
@@ -32,7 +38,7 @@ baopeg@github:~$ echo $LANG
 zh_CN.UTF-8 (Fluent)
 en_US.UTF-8 (Elementary Proficiency)
 
-baopeg@github:~$ ls my-blog
+baopeg@github:~$ cat my-blog
 https://baopeg.top/
 ```
 ### *Other links. 🔗*
