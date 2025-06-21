@@ -56,7 +56,7 @@ jobs:
           
           # 基础模块: 头部、活动、社区、仓库、元数据
           base: header, activity, community, repositories, metadata
-          
+          base_order: music, people, repositories, languages
           # 显示配置: 大尺寸
           config_display: large
 
