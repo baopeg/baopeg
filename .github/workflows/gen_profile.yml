@@ -70,11 +70,20 @@ jobs:
           config_twemoji: yes
 
           # 日历插件: 显示贡献日历
-          plugin_calendar: yes
+          # plugin_calendar: yes
 
           # 显示最近2个月的日历
-          plugin_calendar_limit: 2
+          # plugin_calendar_limit: 2
 
+          # 等距提交日历
+          plugin_isocalendar: yes
+          plugin_isocalendar_duration: full-year
+          # 随机代码片段
+          plugin_code: yes
+          plugin_code_languages: python
+          plugin_code_load: 400
+
+          
           # 跟进插件: 显示用户和仓库信息
           plugin_followup: yes
 
